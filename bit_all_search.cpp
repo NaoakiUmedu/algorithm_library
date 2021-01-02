@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    int n = 3;
+    int n = 3;  //探索したいbit数
 
     // bit をつくる 
     for (int bit = 0; bit < (1<<n); ++bit)
@@ -18,4 +18,6 @@ int main()
             }
         }
     }
+
+    return 0;
 }

@@ -44,29 +44,6 @@ struct UnionFind {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // 使用例 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-struct UnionFind {
-    // 配列 value = 親の番号
-    std::vector<int> d;        
-    // コンストラクタ サイズを初期化する
-    UnionFind(int n=0): d(n,-1) {}
-    // find インデックスxの要素の根っこ(=所属グループ)をみつける
-    int find(int x) {
-        if (d[x] < 0) return x;
-        return d[x] = find(d[x]);
-    }
-    // Unite 貰った2要素を追加してくっつけていく 
-    bool unite(int x, int y) {
-        x = find(x); y = find(y);       // 両方の根っこを扱う 
-        if (x == y) return false;       // おんなじのはつながらない(同じ要素じゃん) 
-        if (d[x] > d[y]) std::swap(x,y);// 小さい方につなげる
-        d[x] += d[y];                   // 連結のサイズを合算する 
-        d[y] = x;                       // yの親をxの親に更新する 
-        return true;
-    }
-    bool same(int x, int y) { return find(x) == find(y);}
-    int size(int x) { return -d[find(x)];}
-};
-
 int main()
 {
 	// 経路探索の問題にする 
