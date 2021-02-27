@@ -1,8 +1,7 @@
 /* 十 聖イシドールスよ、迷えるプログラマを導き給え！ 十 */
-/* 重ならないように置く　でかい四角を縦線か横線で区切ったとき、2つの四角形にぶつからずに区切れるか? */
-/* 1つのパターンで沢山区切れるので単純にやると重複が沢山出るが、
- * 片方の四角形を基準に線を引いてそれで考えればよい */
+#include <cstddef>
 #include <iostream>
+#include <math.h>
 #include <vector>
 #include <string>
 #include <map>
@@ -10,22 +9,55 @@
 #include <cmath>
 #include <deque>
 #include <queue>
+#include <cstring>
+#include <cstdint>
+#include <tuple>
+#include <fstream>
+#include <numeric>
+#include <set>
+#include <unordered_set>
 
-const long long INF = 1LL << 60;
-const long long MOD = 1000000007;
+/*** MACRO and TYPE DEFINES ***/
+#define rep(i, n) \
+    for (int i = 0; i < n; i++)
+
 using ll = long long;
-#define rep(i, n) for (int i = 0; i < n; i++)
-#define MOD(n)    \
-    n = n % MOD;  \
-    if (n < 0)    \
-    {             \
-        n += MOD; \
+using P = std::pair<ll, ll>;
+
+/*** CONST DEFINES ***/
+const long long MOD = 998244353;
+// const long long MOD = 1000000007;
+const ll INF64 = 9000000000000000000;
+const int INF32 = 1000000000;
+
+/*** UTILITY CLASS ***/
+/*** FUNCTIONS ***/
+int main(void);
+int slove(void);
+
+/*** GLOVAL VALIABLES ***/
+/*** EXECUTE ***/
+
+int main(void)
+{
+#ifdef DEB
+    std::cout << "test start \n";
+    while (true)
+#endif
+    {
+        slove();
     }
 
-typedef std::pair<int, int> P;
+    return 0;
+}
 
-int main()
+int slove(void)
 {
+#if 0
+	//ファイルから読み込みたいとき
+	std::ifstream in();
+	std::cin.rdbuf(in.rdbuf());
+#endif
 
     return 0;
 }
