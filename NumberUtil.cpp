@@ -32,12 +32,12 @@ const int INF32 = 1000000000;
 
 /*** FUNCTIONS ***/
 
-/*** EXECUTE ***/
-
 //-------------------------------------------------------
 // 桁数を数える
+// Nketaを返すようにすると、10^桁数を返す
 //-------------------------------------------------------
-ll GetKeta(ll n)
+ll GetKeta(ll n, ll &rNketa)
+// ll GetKeta(ll n) //ll rNketa&)
 {
     ll ret = 0;
     ll Nketa = 0;
@@ -53,6 +53,7 @@ ll GetKeta(ll n)
         }
         ret++;
     }
+    rNketa = Nketa / 10;
     return ret;
 }
 
@@ -75,18 +76,22 @@ ll GetNNN_NNN(ll nnn)
         else
         {
             Nketa *= 10;
+            keta++;
         }
-        keta++;
     }
 
     ret = (nnn * Nketa) + nnn;
-
     return ret;
 }
 
+//-------------------------------------------------------
+// テスト
+//-------------------------------------------------------
 int main(void)
 {
     std::cout << GetNNN_NNN(121) << std::endl;
-    std::cout << GetKeta(1000) << std::endl;
+    ll Nketa = 0;
+    std::cout << GetKeta(9999, Nketa) << std::endl;
+    std::cout << Nketa << std::endl;
     return 0;
 }
