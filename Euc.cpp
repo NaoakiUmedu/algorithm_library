@@ -1,6 +1,13 @@
 #include <iostream>
 #include <numeric>
 // std::numeric::gcdでも可
+/*
+↓ 剰余で公約数が求められるわけ
+44d - 13d・3 = 5d
+13d - 5d・2 = 3d
+5d - 3d = 2d
+3d - 2d = d
+*/
 
 unsigned long long Euc(unsigned long long a, unsigned long long b)
 {
@@ -15,9 +22,12 @@ unsigned long long Euc(unsigned long long a, unsigned long long b)
 
     if (a % b == 0)
     {
+		// bがaの最大公約数の場合、それを返す
+		// だんだん減らしていっているので、一番最初にここに来たものが全体のGCD
         return b;
     }
 
+	// 剰余なのでどんどん小さくなり、いつかは公約数になる
     return Euc(b, (a % b));
 }
 
