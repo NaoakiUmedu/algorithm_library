@@ -9,7 +9,9 @@
 // ・Find  どのグループにいる?
 // 計算量・・・O(logN)
 //************************************************
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 #define rep(i, n) for (int i = 0; i < n; i++)
 
@@ -20,6 +22,7 @@ using ll = long long;
 struct UnionFind
 {
     // 配列 value = 子なら親の番号、親ならグループのサイズ(判定のため-1 * size()の形で保持)
+    // 例えば、size=8の親が保持するのは-8
     std::vector<int> d;
     // コンストラクタ サイズを初期化する
     UnionFind(int n = 0) : d(n, -1) {}
@@ -27,7 +30,12 @@ struct UnionFind
     int find(int x)
     {
         if (d[x] < 0)
+        {
+            // 子ではなく親
+            // 自身を返す(再帰の端っこ)
             return x;
+        }
+        // 親ではないので探しに行く
         return d[x] = find(d[x]);
     }
     // Unite 貰った2要素を追加してくっつけていく
@@ -38,9 +46,11 @@ struct UnionFind
         if (x == y)
             return false; // おんなじのはつながらない(同じ要素じゃん)
         if (d[x] > d[y])
+        {
             std::swap(x, y); // 小さい方につなげる
-        d[x] += d[y];        // 連結のサイズを合算する
-        d[y] = x;            // yの親をxの親に更新する
+        }
+        d[x] += d[y]; // 連結のサイズを合算する
+        d[y] = x;     // yの親をxの親に更新する
         return true;
     }
     bool same(int x, int y) { return find(x) == find(y); }
