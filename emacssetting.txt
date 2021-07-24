@@ -1,0 +1,110 @@
+===============<init.el>===============
+;;;;; settings ;;;;;
+;(setq default-tab-width 4)
+
+;;;;; key bindings ;;;;;
+(define-key global-map (kbd "M-SPC") 'set-mark-command)
+
+;;;;; macros ;;;;:
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;;;;;
+(require 'init-loader)
+(init-loader-load "~/.emacs.d/inits")
+
+(require 'use-package)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(lsp-pyright lsp-python-ms company flycheck clang-format use-package lsp-ui lsp-mode init-loader)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+ 
+===============<00_package.el>===============
+(require 'package)
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+
+(package-initialize)
+
+===============<01_lsp.el>===============
+(use-package lsp-mode
+  :hook ((c++-mode c-mode) . lsp)
+  :commands lsp
+  :config
+  (setq lsp-prefer-flymake nil)
+  :init
+  (unbind-key "C-l")
+  :bind
+  (("C-l f" . lsp-format-buffer)
+   ("C-l t" . lsp-goto-type-definition)
+   ("C-l r" . lsp-rename)
+   ("C-l <f5>" . lsp-restart-workspace))
+  )
+
+(use-package lsp-python-ms
+  :ensure t
+  :init
+  (setq lsp-python-ms-auto-install-server t)
+  (unbind-key "C-l")
+  :bind
+  (("C-l f" . lsp-format-buffer)
+   ("C-l t" . lsp-goto-type-definition)
+   ("C-l r" . lsp-rename)
+   ("C-l <f5>" . lsp-restart-workspace))
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp))))  ; or lsp-deferred
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
+===============<02_gauche.el>===============
+;; gaucheモード
+(setq process-coding-system-alist
+      (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
+(setq scheme-program-name "/usr/local/bin/gosh -i")
+
+(autoload 'scheme-mode' "cmuscheme" "Major mode for Scheme." t)
+(autoload 'run-scheme' "cmuscheme" "Run an inferior Scheme process." t)
+
+(defun scheme-other-window()
+  "Run Gauche on other window"
+  (interactive)
+  (switch-to-buffer-other-window
+   (get-buffer-create "*scheme*"))
+  (run-scheme scheme-program-name))
+
+(define-key global-map
+    "\C-cS" 'scheme-other-window)
+
+===============<03_cfamily.el>===============
+(defun my-cfamily-mode-init ()
+  (setq c-basic-offset 4))
+(add-hook 'c-mode-hook 'my-cfamily-mode-init)
+(add-hook 'c++-mode-hook 'my-cfamily-mode-init)
+
+==============<04_company.el>==============
+(use-package company
+  :config
+  (global-company-mode t)
+  (global-set-key (kbd "<C-tab>") 'company-complete)
+  (bind-keys :map company-active-map
+             ("C-n" . company-select-next)
+             ("C-p" . company-select-previous))
+  (bind-keys :map company-search-map
+             ("C-n" . company-selecct-next)
+             ("C-p" . company-select-previous))
+  (bind-keys :map company-active-map
+             ("<tab>" . company-complete-selection)))
+
+(use-package company-lsp :commands company-lsp)
