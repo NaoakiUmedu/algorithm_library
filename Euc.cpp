@@ -9,6 +9,7 @@
 3d - 2d = d
 */
 
+// これ、std::gcdでよくない???
 unsigned long long Euc(unsigned long long a, unsigned long long b)
 {
     // a >= bの自然数a, bについて、
@@ -22,12 +23,12 @@ unsigned long long Euc(unsigned long long a, unsigned long long b)
 
     if (a % b == 0)
     {
-		// bがaの最大公約数の場合、それを返す
-		// だんだん減らしていっているので、一番最初にここに来たものが全体のGCD
+        // bがaの最大公約数の場合、それを返す
+        // だんだん減らしていっているので、一番最初にここに来たものが全体のGCD
         return b;
     }
 
-	// 剰余なのでどんどん小さくなり、いつかは公約数になる
+    // 剰余なのでどんどん小さくなり、いつかは公約数になる
     return Euc(b, (a % b));
 }
 
