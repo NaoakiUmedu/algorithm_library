@@ -1,0 +1,26 @@
+[[plugins]]
+repo        = 'autozimu/LanguageClient-neovim'
+rev         = 'next'
+build       = 'bash install.sh'
+hook_add = '''
+   let g:LanguageClient_autoStart = 1  " LanguageServerを自動起動する
+
+   " 言語毎のLSPを設定
+   let g:LanguageClient_serverCommands = {
+      \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+   \ }
+
+   augroup LanguageClient_config
+      autocmd!
+      autocmd User LanguageClientStarted setlocal signcolumn=yes
+      autocmd User LanguageClientStopped setlocal signcolumn=auto
+   augroup END
+
+   nnoremap [lsp] <Nop>
+   nmap <Space>l [lsp]
+
+   nnoremap [lsp]h :call LanguageClient_textDocument_hover()<CR>
+   nnoremap [lsp]d :call LanguageClient_textDocument_definition()<CR>
+   nnoremap [lsp]r :call LanguageClient_textDocument_rename()<CR>
+   nnoremap [lsp]f :call LanguageClient_textDocument_formatting()<CR>
+   '''
